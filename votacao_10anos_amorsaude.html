@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campanha 10 Anos · AmorSaúde · Vote no seu roteiro favorito</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #ffffff;
+    --off: #faf9f6;
+    --dark: #0e0e0e;
+    --mid: #3a3a3a;
+    --muted: #888;
+    --border: rgba(0,0,0,0.08);
+    --red: #e03c2e;
+    --teal: #1D9E75;
+    --c1: #3C3489;
+    --c2: #993556;
+    --c3: #854F0B;
+    --c4: #085041;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--dark);
+    color: var(--white);
+    padding: 80px 24px 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(29,158,117,0.18) 0%, transparent 70%);
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    border: 1px solid rgba(29,158,117,0.4);
+    border-radius: 20px;
+    padding: 5px 16px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .hero h1 span { color: var(--teal); }
+  .hero p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.55);
+    max-width: 480px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+    position: relative;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    position: relative;
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+
+  /* INSTRUCTIONS */
+  .instructions {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .step {
+    flex: 1;
+    min-width: 160px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--dark);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step p { font-size: 13px; color: var(--mid); line-height: 1.5; }
+
+  /* SECTION */
+  .section { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  /* CARDS */
+  .cards { display: flex; flex-direction: column; gap: 16px; }
+
+  .card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .card:hover { transform: translateY(-2px); }
+  .card.selected { border-color: var(--teal); }
+  .card.selected .card-header { background: var(--dark); }
+  .card.selected .card-header .author { color: var(--white); }
+  .card.selected .card-header .concept { color: rgba(255,255,255,0.5); }
+
+  .card-header {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    transition: background 0.2s;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-header-left { display: flex; align-items: center; gap: 14px; }
+  .avatar {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 500;
+    flex-shrink: 0;
+  }
+  .author { font-size: 15px; font-weight: 500; }
+  .concept { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .concept-badge {
+    font-size: 11px; font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .radio {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,0,0,0.2);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .card.selected .radio { background: var(--teal); border-color: var(--teal); }
+  .radio-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: white;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .card.selected .radio-dot { opacity: 1; }
+
+  .card-body { padding: 24px; }
+
+  /* SYNOPSIS */
+  .synopsis { font-size: 14px; color: var(--mid); line-height: 1.7; margin-bottom: 20px; }
+
+  /* ROTEIRO EXPANDIDO */
+  .roteiro-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    background: var(--off);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    width: fit-content;
+    transition: all 0.15s;
+    user-select: none;
+    margin-bottom: 16px;
+  }
+  .roteiro-toggle:hover { color: var(--dark); border-color: rgba(0,0,0,0.2); }
+  .toggle-arrow { transition: transform 0.25s; font-size: 10px; }
+  .roteiro-toggle.open .toggle-arrow { transform: rotate(180deg); }
+
+  .roteiro-full {
+    display: none;
+    background: #f7f6f2;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .roteiro-full.visible { display: block; }
+  .roteiro-full p {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+  .roteiro-full p:last-child { margin-bottom: 0; }
+  .roteiro-full .roteiro-section {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 16px 0 6px;
+  }
+  .roteiro-full blockquote {
+    border-left: 3px solid var(--border);
+    padding-left: 14px;
+    color: var(--mid);
+    font-size: 13px;
+    line-height: 1.7;
+    font-style: italic;
+    margin: 8px 0;
+  }
+
+  /* PILLS */
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .pill {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--off);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  /* VOTE SECTION */
+  .vote-section {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+  .vote-box {
+    background: var(--dark);
+    border-radius: 16px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .vote-box-left p:first-child { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+  .vote-box-left p:last-child { font-size: 16px; font-weight: 500; color: var(--white); }
+  .btn-vote {
+    background: var(--teal);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 14px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    white-space: nowrap;
+  }
+  .btn-vote:hover:not(:disabled) { opacity: 0.88; transform: scale(1.02); }
+  .btn-vote:disabled { opacity: 0.3; cursor: default; }
+
+  /* RESULTS */
+  .results-section {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    display: none;
+  }
+  .results-section.visible { display: block; }
+  .results-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .result-row { margin-bottom: 14px; }
+  .result-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--mid);
+    margin-bottom: 6px;
+  }
+  .result-meta strong { font-weight: 500; color: var(--dark); }
+  .track {
+    height: 8px;
+    background: rgba(0,0,0,0.06);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .fill {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  .winner-box {
+    background: #E1F5EE;
+    border: 1px solid #5DCAA5;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    display: none;
+  }
+  .winner-box.visible { display: flex; }
+  .winner-box p { font-size: 14px; font-weight: 500; color: #085041; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+  footer strong { color: var(--dark); font-weight: 500; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 60px 20px 48px; }
+    .vote-box { flex-direction: column; align-items: flex-start; }
+    .btn-vote { width: 100%; text-align: center; }
+    .card-header { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">Competição Interna de Criatividade</div>
+  <h1>Campanha<br><span>10 Anos</span><br>AmorSaúde</h1>
+  <p>Quatro propostas criativas. Uma decisão coletiva. Leia os roteiros e vote na sua favorita.</p>
+  <div class="hero-meta">
+    <span>4 propostas</span>
+    <div class="dot"></div>
+    <span>1 voto por pessoa</span>
+    <div class="dot"></div>
+    <span>Resultado em tempo real</span>
+  </div>
+</div>
+
+<div class="instructions">
+  <div class="step">
+    <div class="step-num">1</div>
+    <p>Leia o resumo de cada proposta e clique em <strong>"Ver roteiro completo"</strong> para conhecer todos os detalhes.</p>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <p>Clique no card da proposta que você mais gostou para selecioná-la.</p>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <p>Role até o final e clique em <strong>Confirmar voto</strong>. Simples assim.</p>
+  </div>
+</div>
+
+<div class="section">
+  <p class="section-label">As propostas</p>
+  <div class="cards">
+
+    <!-- REBECCA -->
+    <div class="card" data-id="rebecca" data-name="Rebecca — O Plot Twist" onclick="selectCard(this)">
+      <div class="card-header">
+        <div class="card-header-left">
+          <div class="avatar" style="background:#EEEDFE;color:#3C3489;">RE</div>
+          <div>
+            <div class="author">Rebecca</div>
+            <div class="concept">O Plot Twist</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="concept-badge" style="background:#EEEDFE;color:#3C3489;">Narrativa cinematográfica</span>
+          <div class="radio"><div class="radio-dot"></div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="synopsis">Formato de <strong>trailer de filme</strong>. Acompanhamos o crescimento de uma criança desde o sonho da gestação até os 10 anos — e no final o plot twist revela que toda aquela narrativa era, na verdade, a história do AmorSaúde. A figura materna conecta diretamente com o público principal da marca.</p>
+
+        <div class="roteiro-toggle" onclick="toggleRoteiro(event, 'rot-rebecca')">
+          <span>Ver roteiro completo</span>
+          <span class="toggle-arrow">▼</span>
+        </div>
+        <div class="roteiro-full" id="rot-rebecca">
+          <div class="roteiro-section">Conceito</div>
+          <p>O vídeo é construído como um trailer de filme — narrativa emocional e envolvente que conduz o público por uma história aparentemente pessoal, mas que no final revela um significado maior.</p>
+
+          <div class="roteiro-section">Estrutura narrativa</div>
+          <p><strong>Ato 1 — O sonho:</strong> Antes mesmo da gravidez, vemos o desejo de gerar, os planos, os pensamentos sobre o futuro. Em seguida, a descoberta da gestação e toda a transformação: cuidado, preparação, estruturação para receber uma nova vida.</p>
+          <p><strong>Ato 2 — O crescimento:</strong> Nascimento da criança e, a partir daí, acompanhamos seu desenvolvimento. Os primeiros cuidados, primeiros ensinamentos, construção de valores. A preocupação em como educar, orientar, preparar para o mundo.</p>
+          <p><strong>Ato 3 — A identidade:</strong> A criança chega aos 10 anos com identidade própria, opinião formada e visão de mundo. Ela começa a se expressar, questionar, construir seus pensamentos. Explora novos lugares, vivencia realidades diferentes, amplia sua visão.</p>
+          <p><strong>O Plot Twist:</strong> O público percebe que não estava assistindo apenas à história de uma mãe e seu filho. Toda a narrativa representa a trajetória do AmorSaúde — desde o sonho inicial, passando pela construção e desenvolvimento, até o momento atual: uma marca que completa 10 anos, madura e presente em todo o Brasil.</p>
+
+          <div class="roteiro-section">Assinatura</div>
+          <blockquote>"Aquela mãe que sonhou em gerar algo, hoje não tem apenas um filho. Ela tem muitos."</blockquote>
+          <p>O que começou como um sonho único hoje se multiplicou em várias unidades espalhadas pelo país, impactando milhares de vidas.</p>
+
+          <div class="roteiro-section">Viabilidade</div>
+          <p>Requer produção com atriz/atores e equipe. Alta qualidade cinematográfica. Adequado para um hero video da campanha de aniversário.</p>
+        </div>
+
+        <div class="pills">
+          <span class="pill">Plot twist emocional</span>
+          <span class="pill">Metáfora mãe/filho</span>
+          <span class="pill">Formato trailer</span>
+          <span class="pill">Foco no público feminino</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMILA -->
+    <div class="card" data-id="camila" data-name="Camila — Sua Saúde em 10 Anos" onclick="selectCard(this)">
+      <div class="card-header">
+        <div class="card-header-left">
+          <div class="avatar" style="background:#FBEAF0;color:#72243E;">CA</div>
+          <div>
+            <div class="author">Camila</div>
+            <div class="concept">Sua Saúde em 10 Anos</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="concept-badge" style="background:#FBEAF0;color:#72243E;">Trend de nostalgia</span>
+          <div class="radio"><div class="radio-dot"></div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="synopsis">Aproveita a <strong>trend de nostalgia dos 10 anos</strong> que ganhou força em 2026. Pessoas reais são abordadas nas ruas com a pergunta "O que mudou na sua saúde em 10 anos?" — respostas autênticas, emocionantes e com alto potencial de viralização.</p>
+
+        <div class="roteiro-toggle" onclick="toggleRoteiro(event, 'rot-camila')">
+          <span>Ver roteiro completo</span>
+          <span class="toggle-arrow">▼</span>
+        </div>
+        <div class="roteiro-full" id="rot-camila">
+          <div class="roteiro-section">Objetivo</div>
+          <p>Aproveitar o hype do autocuidado, alinhado à trend de nostalgia dos 10 anos que ganhou força no início de 2026, para incentivar a divulgação de histórias reais de evolução ao longo do tempo.</p>
+          <p>Destacar transformações relacionadas à saúde — seja física (tratamentos bem-sucedidos), mental ou mudanças de estilo de vida, como emagrecimento e adoção de hábitos mais saudáveis.</p>
+
+          <div class="roteiro-section">Formato</div>
+          <p>Cortes simples, dinâmicos e autênticos, com pessoas reais nas ruas compartilhando suas histórias. Mais do que falar de saúde, o vídeo mostra evolução, identificação e conquista — elementos-chave para gerar conexão emocional e potencial de viralização.</p>
+
+          <div class="roteiro-section">Roteiro</div>
+          <blockquote>"O que mudou na sua saúde em 10 anos?"</blockquote>
+          <p>Pessoas são abordadas nas ruas e comentam:</p>
+          <blockquote>
+            "Em 10 anos eu parei de fumar."<br>
+            "Em 10 anos eu emagreci 20 quilos."<br>
+            "Em 10 anos eu venci a depressão."<br>
+            "Em 10 anos eu comecei a me cuidar de verdade."
+          </blockquote>
+
+          <div class="roteiro-section">Fechamento</div>
+          <blockquote>"E você… já começou a cuidar da sua?"</blockquote>
+          <blockquote>"AmorSaúde. Há 10 anos cuidando da sua evolução."</blockquote>
+
+          <div class="roteiro-section">Viabilidade</div>
+          <p>Execução simples e ágil. Gravações externas com pessoas reais. Formato nativo para Reels e TikTok. Alto potencial de compartilhamento orgânico.</p>
+        </div>
+
+        <div class="pills">
+          <span class="pill">Trend nostalgia 2026</span>
+          <span class="pill">Viral / Reels / TikTok</span>
+          <span class="pill">Produção simples</span>
+          <span class="pill">Pessoas reais nas ruas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAULA -->
+    <div class="card" data-id="paula" data-name="Paula — Não Pode Esperar" onclick="selectCard(this)">
+      <div class="card-header">
+        <div class="card-header-left">
+          <div class="avatar" style="background:#FAEEDA;color:#633806;">PA</div>
+          <div>
+            <div class="author">Paula</div>
+            <div class="concept">Não Pode Esperar</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="concept-badge" style="background:#FAEEDA;color:#633806;">Documentário + Trend musical</span>
+          <div class="radio"><div class="radio-dot"></div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="synopsis">Inspirado no documentário <strong>Jogo de Cena</strong> de Eduardo Coutinho (2007). Usa a trend "Fico Assim Sem Você" para criar comparações emocionais sobre a ausência de saúde acessível — com virada poderosa dentro da clínica AmorSaúde.</p>
+
+        <div class="roteiro-toggle" onclick="toggleRoteiro(event, 'rot-paula')">
+          <span>Ver roteiro completo</span>
+          <span class="toggle-arrow">▼</span>
+        </div>
+        <div class="roteiro-full" id="rot-paula">
+          <div class="roteiro-section">Referência conceitual</div>
+          <p>Em 2007, Coutinho provou que a história real de uma pessoa desconhecida é mais poderosa do que qualquer roteiro. A campanha parte do mesmo princípio: convidar pessoas reais a contar o momento em que não podiam esperar.</p>
+
+          <div class="roteiro-section">Big Ideia</div>
+          <blockquote>"Quem precisa de saúde não pode esperar."</blockquote>
+          <p>A saúde é invisível no dia a dia, mas absolutamente essencial. As pessoas só percebem sua importância quando ela falta — e muitas vezes quando já é tarde para esperar. O AmorSaúde posicionado como ponte entre dois extremos: a demora do SUS e o alto custo dos planos.</p>
+
+          <div class="roteiro-section">Mini roteiro</div>
+          <p><strong>Abertura:</strong> Pessoa sentada olhando para o celular, frustrada. Texto: "esperando consulta há meses". Corte para fila de espera.</p>
+          <p><strong>Comparações no ritmo da música:</strong></p>
+          <blockquote>
+            "vida sem saúde" → alguém cansado, sem conseguir trabalhar<br>
+            "família sem tranquilidade" → mãe preocupada com filho doente<br>
+            "cuidado que não chega" → pessoa aguardando retorno médico
+          </blockquote>
+          <p><strong>Virada:</strong> A mesma pessoa agora dentro da clínica, sendo atendida, com ambiente acolhedor. Mudança perceptível, sem parecer publicidade tradicional.</p>
+
+          <div class="roteiro-section">Fechamento</div>
+          <blockquote>"Quando o acesso falha, o cuidado não pode esperar."<br>"Há 10 anos, o AmorSaúde faz a saúde acontecer."</blockquote>
+
+          <div class="roteiro-section">Ação desdobrada — "Não Pode Esperar"</div>
+          <p>QR Code nas clínicas para pacientes contarem suas histórias. Formato: "Não pode esperar porque…" → relato → desfecho com atendimento. Construção contínua de conteúdo com histórias reais.</p>
+
+          <div class="roteiro-section">Viabilidade</div>
+          <p>Execução totalmente viável com recursos internos. Gravação com celular em ambientes reais das clínicas. Participantes podem ser pacientes (com autorização) ou colaboradores.</p>
+        </div>
+
+        <div class="pills">
+          <span class="pill">Referência autoral (Coutinho)</span>
+          <span class="pill">Trend TikTok/Reels</span>
+          <span class="pill">Histórias reais</span>
+          <span class="pill">Ação escalável</span>
+          <span class="pill">Recursos internos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARIANE -->
+    <div class="card" data-id="mariane" data-name="Mariane — Abrindo Portas" onclick="selectCard(this)">
+      <div class="card-header">
+        <div class="card-header-left">
+          <div class="avatar" style="background:#E1F5EE;color:#085041;">MA</div>
+          <div>
+            <div class="author">Mariane</div>
+            <div class="concept">Abrindo Portas</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="concept-badge" style="background:#E1F5EE;color:#085041;">Vídeo colaborativo</span>
+          <div class="radio"><div class="radio-dot"></div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="synopsis">Gestores de cada unidade gravam vídeos simples da frente da clínica, da rotina e dos profissionais. Na edição, as portas se conectam — criando a sensação de passar por <strong>10 anos de crescimento</strong> com locução emocional unindo tudo.</p>
+
+        <div class="roteiro-toggle" onclick="toggleRoteiro(event, 'rot-mariane')">
+          <span>Ver roteiro completo</span>
+          <span class="toggle-arrow">▼</span>
+        </div>
+        <div class="roteiro-full" id="rot-mariane">
+          <div class="roteiro-section">Big Ideia</div>
+          <blockquote>"Há 10 anos, o AmorSaúde abre portas para o cuidado chegar cada vez mais longe."</blockquote>
+
+          <div class="roteiro-section">Proposta de execução</div>
+          <p>Gestores gravam vídeos curtos em formato vertical: frente da clínica, entrada, rotina da unidade, profissionais em atendimento, momentos reais de cuidado. Na edição, esses materiais se conectam em sequência — a sensação de passar por várias portas e várias histórias.</p>
+
+          <div class="roteiro-section">Texto de locução completo</div>
+          <blockquote>
+            "Eu sempre gostei de aniversários. Porque aniversário não é só sobre o tempo que passou. É sobre tudo o que foi construído até aqui.<br><br>
+            Há 10 anos, começamos uma história movida por um propósito muito claro: cuidar da saúde das pessoas com amor, qualidade e acessibilidade.<br><br>
+            De lá para cá, crescemos. Crescemos em estrutura, em presença, em experiência. Mas, acima de tudo, crescemos em propósito.<br><br>
+            A cada nova unidade, a cada profissional, a cada paciente atendido, a cada família acolhida, fomos abrindo portas. Portas para o cuidado. Portas para o acesso. Portas para uma saúde mais próxima, mais humana e mais possível.<br><br>
+            Nesses 10 anos, superamos desafios, evoluímos, nos renovamos e seguimos em frente sem perder a essência do que nos trouxe até aqui. Porque crescer, para nós, nunca foi só sobre ser maior. Sempre foi sobre chegar mais longe.<br><br>
+            Há 10 anos, o AmorSaúde abre portas para o cuidado chegar cada vez mais longe. E essa história está só começando."
+          </blockquote>
+
+          <div class="roteiro-section">Viabilidade</div>
+          <p>Execução 100% interna com participação de todas as unidades. Gravação em celular, formato vertical, sem necessidade de equipe externa. Escalável, com forte senso de pertencimento para colaboradores e franqueados.</p>
+        </div>
+
+        <div class="pills">
+          <span class="pill">Execução interna</span>
+          <span class="pill">Todas as unidades</span>
+          <span class="pill">Locução emocional</span>
+          <span class="pill">Formato Reels</span>
+          <span class="pill">Baixo custo</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- VOTE -->
+<div class="vote-section">
+  <div class="vote-box">
+    <div class="vote-box-left">
+      <p>Sua escolha</p>
+      <p id="selected-label">Nenhuma selecionada ainda</p>
+    </div>
+    <button class="btn-vote" id="btn-vote" disabled onclick="submitVote()">Confirmar voto</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="results-section" id="results-section">
+  <p class="section-label">Resultado parcial</p>
+  <p class="results-title">Placar da votação</p>
+  <div id="result-rows"></div>
+  <div class="winner-box" id="winner-box">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1D9E75" opacity="0.15"/><path d="M7 12l3.5 3.5L17 8.5" stroke="#085041" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <p id="winner-text"></p>
+  </div>
+</div>
+
+<footer>
+  <p>Campanha <strong>10 Anos AmorSaúde</strong> · Competição interna de criatividade · 2026</p>
+</footer>
+
+<script>
+  const votes = { rebecca: 0, camila: 0, paula: 0, mariane: 0 };
+  const colors = { rebecca: '#7F77DD', camila: '#D4537E', paula: '#BA7517', mariane: '#1D9E75' };
+  const labels = {
+    rebecca: 'Rebecca — O Plot Twist',
+    camila: 'Camila — Sua Saúde em 10 Anos',
+    paula: 'Paula — Não Pode Esperar',
+    mariane: 'Mariane — Abrindo Portas'
+  };
+  let selected = null;
+  let voted = false;
+
+  function selectCard(card) {
+    if (voted) return;
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selected = card.dataset.id;
+    document.getElementById('selected-label').textContent = card.dataset.name;
+    document.getElementById('btn-vote').disabled = false;
+  }
+
+  function toggleRoteiro(e, id) {
+    e.stopPropagation();
+    const btn = e.currentTarget;
+    const el = document.getElementById(id);
+    const isOpen = el.classList.contains('visible');
+    el.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+    btn.querySelector('span:first-child').textContent = isOpen ? 'Ver roteiro completo' : 'Ocultar roteiro';
+  }
+
+  function submitVote() {
+    if (!selected || voted) return;
+    voted = true;
+    votes[selected]++;
+    document.getElementById('btn-vote').disabled = true;
+    document.getElementById('btn-vote').textContent = 'Voto registrado!';
+    document.querySelectorAll('.card').forEach(c => { c.style.cursor = 'default'; c.onclick = null; });
+    renderResults();
+    document.getElementById('results-section').classList.add('visible');
+    document.getElementById('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderResults() {
+    const total = Object.values(votes).reduce((a, b) => a + b, 0);
+    let maxV = 0, winner = '';
+    const rows = document.getElementById('result-rows');
+    rows.innerHTML = '';
+    Object.entries(votes).forEach(([id, v]) => {
+      const pct = total > 0 ? Math.round((v / total) * 100) : 0;
+      if (v > maxV) { maxV = v; winner = labels[id]; }
+      rows.innerHTML += `
+        <div class="result-row">
+          <div class="result-meta"><strong>${labels[id]}</strong><span>${v} voto${v !== 1 ? 's' : ''} · ${pct}%</span></div>
+          <div class="track"><div class="fill" style="width:${pct}%;background:${colors[id]};"></div></div>
+        </div>`;
+    });
+    if (winner) {
+      const wb = document.getElementById('winner-box');
+      wb.classList.add('visible');
+      document.getElementById('winner-text').textContent = `Em destaque: ${winner}`;
+    }
+  }
+</script>
+</body>
+</html>
